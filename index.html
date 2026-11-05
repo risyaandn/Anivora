@@ -1,0 +1,910 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ANIVORA | Action Anime</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0b0b14;
+    color: white;
+}
+
+/* NAVBAR */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 8%;
+    background: #11111d;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    color: #a78bfa;
+    letter-spacing: 2px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 25px;
+    font-size: 14px;
+}
+
+nav a:hover {
+    color: #a78bfa;
+}
+
+/* HERO */
+.hero {
+    padding: 90px 8%;
+    min-height: 370px;
+    background:
+    linear-gradient(90deg, #0b0b14 25%, rgba(11,11,20,.55)),
+    url("https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1600")
+    center/cover;
+}
+
+.hero h1 {
+    font-size: 48px;
+    max-width: 600px;
+    margin-bottom: 18px;
+}
+
+.hero h1 span {
+    color: #a78bfa;
+}
+
+.hero p {
+    color: #ccccd8;
+    max-width: 500px;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.hero button {
+    background: #8b5cf6;
+    color: white;
+    border: none;
+    padding: 13px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.hero button:hover {
+    background: #7040d5;
+}
+
+/* CONTENT */
+.container {
+    padding: 50px 8%;
+}
+
+.section-title {
+    font-size: 27px;
+    margin-bottom: 25px;
+}
+
+.section-title span {
+    color: #a78bfa;
+}
+
+/* SEARCH */
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.search-box input {
+    flex: 1;
+    min-width: 200px;
+    padding: 13px;
+    border-radius: 8px;
+    border: 1px solid #343447;
+    background: #171725;
+    color: white;
+    outline: none;
+}
+
+.search-box select {
+    padding: 13px;
+    border-radius: 8px;
+    background: #171725;
+    color: white;
+    border: 1px solid #343447;
+}
+
+/* ANIME CARDS */
+.anime-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: #171725;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: .3s;
+    border: 1px solid #252538;
+}
+
+.card:hover {
+    transform: translateY(-7px);
+    border-color: #8b5cf6;
+}
+
+.card img {
+    width: 100%;
+    height: 320px;
+    object-fit: contain;
+    background: #11111d;
+    display: block;
+}
+
+.card-content {
+    padding: 16px;
+}
+
+.card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.genre {
+    color: #a78bfa;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.stats {
+    color: #9999b5;
+    font-size: 11px;
+    margin-bottom: 12px;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+}
+
+.rating {
+    color: #facc15;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.card p {
+    font-size: 13px;
+    color: #b9b9c8;
+    line-height: 1.6;
+    min-height: 62px;
+}
+
+.card button {
+    margin-top: 15px;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 7px;
+    background: #8b5cf6;
+    color: white;
+    cursor: pointer;
+}
+
+.card button:hover {
+    background: #7040d5;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.85);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 20;
+}
+
+.modal-content {
+    background: #191929;
+    padding: 25px;
+    border-radius: 12px;
+    max-width: 450px;
+    width: 100%;
+}
+
+.modal-content h2 {
+    color: #a78bfa;
+    margin-bottom: 15px;
+}
+
+.modal-content p {
+    color: #ccc;
+    line-height: 1.7;
+}
+
+.close {
+    float: right;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+/* ABOUT */
+.about-text {
+    color: #bbb;
+    line-height: 1.8;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 30px;
+    background: #11111d;
+    color: #888;
+    font-size: 13px;
+    margin-top: 50px;
+}
+
+.creator {
+    margin-top: 10px;
+    color: #a78bfa;
+    font-size: 13px;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+/* RESPONSIVE */
+@media(max-width:600px) {
+    nav {
+        padding: 18px 5%;
+    }
+
+    nav a {
+        margin-left: 10px;
+        font-size: 12px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .hero {
+        padding: 65px 6%;
+    }
+
+    .hero h1 {
+        font-size: 35px;
+    }
+
+    .container {
+        padding: 35px 5%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <div class="logo">ANIVORA.</div>
+
+    <div>
+        <a href="#home">Home</a>
+        <a href="#anime">Anime</a>
+        <a href="#about">About</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+
+    <h1>
+        Discover Your Next
+        <span>Action Anime!</span>
+    </h1>
+
+    <p>
+        Temukan berbagai rekomendasi anime action terbaik
+        dengan pertarungan epik, petualangan seru,
+        dan cerita yang tidak terlupakan.
+    </p>
+
+    <button onclick="document.getElementById('anime').scrollIntoView({behavior:'smooth'})">
+        Explore Anime
+    </button>
+
+</section>
+
+<!-- ANIME LIST -->
+<section class="container" id="anime">
+
+    <h2 class="section-title">
+        Recommended <span>Anime</span>
+    </h2>
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="search"
+            placeholder="Cari judul anime..."
+            oninput="renderAnime()"
+        >
+
+        <select id="filter" onchange="renderAnime()">
+            <option value="All">Semua Genre</option>
+            <option value="Action">Action</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Supernatural">Supernatural</option>
+        </select>
+
+    </div>
+
+    <div class="anime-grid" id="animeList"></div>
+
+</section>
+
+<!-- MODAL DETAIL -->
+<div class="modal" id="modal">
+
+    <div class="modal-content">
+
+        <span class="close" onclick="closeModal()">
+            &times;
+        </span>
+
+        <h2 id="modalTitle"></h2>
+
+        <p id="modalDescription"></p>
+
+    </div>
+
+</div>
+
+<!-- ABOUT -->
+<section class="container" id="about">
+
+    <h2 class="section-title">
+        About <span>ANIVORA</span>
+    </h2>
+
+    <p class="about-text">
+        ANIVORA merupakan website rekomendasi anime
+        yang membantu para penggemar menemukan tontonan
+        menarik, khususnya dalam genre action.
+
+        Jelajahi berbagai judul anime, temukan cerita
+        menarik, dan nikmati petualangan favoritmu!
+
+        <br><br>
+
+        Discover Stories. Experience Adventures.
+    </p>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+
+    <p>© 2026 ANIVORA. Made for Anime Lovers.</p>
+
+    <p class="creator">by @naaej_ on ig</p>
+
+</footer>
+
+<script>
+
+/* DATABASE ANIME */
+
+const animeData = [
+{
+title:"Attack on Titan",
+genre:"Action",
+rating:"9.1/10",
+year:"2013",
+image:"https://cdn.myanimelist.net/images/anime/10/47347.jpg",
+description:"Eren Yeager berjuang mengungkap misteri Titan dan memperjuangkan kebebasan manusia."
+},
+{
+title:"Demon Slayer",
+genre:"Action",
+rating:"8.5/10",
+year:"2019",
+image:"https://cdn.myanimelist.net/images/anime/1286/99889.jpg",
+description:"Tanjiro menjadi pembasmi iblis demi menyelamatkan adiknya, Nezuko."
+},
+{
+title:"Jujutsu Kaisen",
+genre:"Supernatural",
+rating:"8.5/10",
+year:"2020",
+image:"https://cdn.myanimelist.net/images/anime/1171/109222.jpg",
+description:"Yuji Itadori memasuki dunia penyihir jujutsu dan kutukan berbahaya."
+},
+{
+title:"Solo Leveling",
+genre:"Fantasy",
+rating:"8.6/10",
+year:"2024",
+image:"https://cdn.myanimelist.net/images/anime/1801/142390.jpg",
+description:"Sung Jin-Woo mendapatkan kemampuan unik untuk meningkatkan kekuatannya."
+},
+{
+title:"One Punch Man",
+genre:"Action",
+rating:"8.5/10",
+year:"2015",
+image:"https://cdn.myanimelist.net/images/anime/12/76049.jpg",
+description:"Saitama adalah pahlawan super yang mampu mengalahkan musuh dengan satu pukulan."
+},
+{
+title:"Hunter x Hunter",
+genre:"Adventure",
+rating:"9.0/10",
+year:"2011",
+image:"https://cdn.myanimelist.net/images/anime/1337/99013.jpg",
+description:"Gon memulai perjalanan menjadi Hunter untuk menemukan ayahnya."
+},
+{
+title:"Chainsaw Man",
+genre:"Supernatural",
+rating:"8.4/10",
+year:"2022",
+image:"https://cdn.myanimelist.net/images/anime/1806/126216.jpg",
+description:"Denji menyatu dengan iblis gergaji mesin dan menjadi pemburu iblis."
+},
+{
+title:"Sword Art Online",
+genre:"Fantasy",
+rating:"7.2/10",
+year:"2012",
+image:"https://cdn.myanimelist.net/images/anime/11/39717.jpg",
+description:"Kirito terjebak dalam permainan virtual yang mempertaruhkan nyawa para pemain."
+},
+{
+title:"Fullmetal Alchemist: Brotherhood",
+genre:"Fantasy",
+rating:"9.1/10",
+year:"2009",
+image:"https://cdn.myanimelist.net/images/anime/1223/96541.jpg",
+description:"Edward dan Alphonse Elric melakukan perjalanan untuk mencari Philosopher's Stone dan mengembalikan tubuh mereka."
+},
+{
+title:"Naruto Shippuden",
+genre:"Action",
+rating:"8.3/10",
+year:"2007",
+image:"https://cdn.myanimelist.net/images/anime/1565/111305.jpg",
+description:"Naruto kembali setelah berlatih dan berjuang melindungi teman-temannya serta meraih impiannya menjadi Hokage."
+},
+{
+title:"Bleach",
+genre:"Supernatural",
+rating:"8.0/10",
+year:"2004",
+image:"https://cdn.myanimelist.net/images/anime/3/40451.jpg",
+description:"Ichigo Kurosaki memperoleh kekuatan Soul Reaper dan melawan roh jahat yang mengancam manusia."
+},
+{
+title:"My Hero Academia",
+genre:"Action",
+rating:"7.8/10",
+year:"2016",
+image:"https://cdn.myanimelist.net/images/anime/10/78745.jpg",
+description:"Izuku Midoriya berjuang menjadi pahlawan di dunia yang sebagian besar penduduknya memiliki kekuatan super."
+},
+{
+title:"Black Clover",
+genre:"Fantasy",
+rating:"8.1/10",
+year:"2017",
+image:"https://cdn.myanimelist.net/images/anime/2/88336.jpg",
+description:"Asta yang tidak memiliki sihir berusaha menjadi Wizard King di dunia penuh kekuatan sihir."
+},
+{
+title:"Tokyo Ghoul",
+genre:"Supernatural",
+rating:"7.8/10",
+year:"2014",
+image:"https://cdn.myanimelist.net/images/anime/5/64449.jpg",
+description:"Ken Kaneki mengalami perubahan hidup setelah menjadi setengah manusia dan setengah ghoul."
+},
+{
+title:"Tokyo Revengers",
+genre:"Action",
+rating:"7.9/10",
+year:"2021",
+image:"https://cdn.myanimelist.net/images/anime/1839/122012.jpg",
+description:"Takemichi melakukan perjalanan waktu untuk mengubah masa depan dan menyelamatkan orang-orang terdekatnya."
+},
+{
+title:"Mob Psycho 100",
+genre:"Supernatural",
+rating:"8.5/10",
+year:"2016",
+image:"https://cdn.myanimelist.net/images/anime/8/80356.jpg",
+description:"Shigeo Kageyama atau Mob memiliki kekuatan psikis luar biasa dan berusaha menjalani kehidupan normal."
+},
+{
+title:"Fire Force",
+genre:"Supernatural",
+rating:"7.7/10",
+year:"2019",
+image:"https://cdn.myanimelist.net/images/anime/1664/103275.jpg",
+description:"Shinra bergabung dengan pasukan pemadam kebakaran khusus untuk menghadapi manusia yang berubah menjadi api."
+},
+{
+title:"Dr. Stone",
+genre:"Adventure",
+rating:"8.1/10",
+year:"2019",
+image:"https://cdn.myanimelist.net/images/anime/1613/102576.jpg",
+description:"Senku berusaha membangun kembali peradaban manusia menggunakan ilmu pengetahuan setelah seluruh manusia membatu."
+},
+{
+title:"Vinland Saga",
+genre:"Adventure",
+rating:"8.7/10",
+year:"2019",
+image:"https://cdn.myanimelist.net/images/anime/1500/103005.jpg",
+description:"Thorfinn menjalani kehidupan penuh petualangan dan konflik di era Viking."
+},
+{
+title:"Kaiju No. 8",
+genre:"Action",
+rating:"8.2/10",
+year:"2024",
+image:"https://cdn.myanimelist.net/images/anime/1370/140362.jpg",
+description:"Kafka Hibino memperoleh kekuatan untuk berubah menjadi Kaiju dan bergabung dengan pasukan pertahanan."
+},
+{
+title:"Fate/Zero",
+genre:"Fantasy",
+rating:"8.3/10",
+year:"2011",
+image:"https://cdn.myanimelist.net/images/anime/1887/117644.jpg",
+description:"Tujuh penyihir memanggil roh pahlawan untuk bertarung memperebutkan Holy Grail."
+},
+{
+title:"Dororo",
+genre:"Supernatural",
+rating:"8.3/10",
+year:"2019",
+image:"https://cdn.myanimelist.net/images/anime/1879/100467.jpg",
+description:"Hyakkimaru melakukan perjalanan untuk mendapatkan kembali bagian tubuhnya yang direnggut oleh iblis."
+},
+{
+title:"Bungou Stray Dogs",
+genre:"Supernatural",
+rating:"7.8/10",
+year:"2016",
+image:"https://cdn.myanimelist.net/images/anime/3/79409.jpg",
+description:"Atsushi bergabung dengan Armed Detective Agency yang anggotanya memiliki kemampuan supernatural."
+},
+{
+title:"The God of High School",
+genre:"Action",
+rating:"7.0/10",
+year:"2020",
+image:"https://cdn.myanimelist.net/images/anime/1722/107269.jpg",
+description:"Jin Mori mengikuti turnamen bela diri yang mempertemukan petarung-petarung luar biasa."
+},
+{
+title:"The Rising of the Shield Hero",
+genre:"Fantasy",
+rating:"7.9/10",
+year:"2019",
+image:"https://cdn.myanimelist.net/images/anime/1490/101365.jpg",
+description:"Naofumi dipanggil ke dunia lain sebagai Pahlawan Perisai dan berjuang menghadapi berbagai ancaman."
+},
+{
+title:"Tower of God",
+genre:"Adventure",
+rating:"7.5/10",
+year:"2020",
+image:"https://cdn.myanimelist.net/images/anime/1702/106229.jpg",
+description:"Bam memasuki menara misterius untuk mencari seseorang yang sangat berarti baginya."
+}
+  
+];
+
+/* DATA SEASON DAN EPISODE ANIME */
+
+const animeStats = {
+
+"Attack on Titan": {
+    seasons: "4 Season",
+    episodes: "89 Episode"
+},
+
+"Demon Slayer": {
+    seasons: "5 Season / Arc",
+    episodes: "63 Episode"
+},
+
+"Jujutsu Kaisen": {
+    seasons: "3 Season",
+    episodes: "59 Episode"
+},
+
+"Solo Leveling": {
+    seasons: "2 Season",
+    episodes: "25 Episode"
+},
+
+"One Punch Man": {
+    seasons: "3 Season",
+    episodes: "36 Episode"
+},
+
+"Hunter x Hunter": {
+    seasons: "1 Series",
+    episodes: "148 Episode"
+},
+
+"Chainsaw Man": {
+    seasons: "1 Season",
+    episodes: "12 Episode"
+},
+
+"Sword Art Online": {
+    seasons: "4 Season",
+    episodes: "96 Episode"
+},
+
+"Fullmetal Alchemist: Brotherhood": {
+    seasons: "1 Season",
+    episodes: "64 Episode"
+},
+
+"Naruto Shippuden": {
+    seasons: "1 Series",
+    episodes: "500 Episode"
+},
+
+"Bleach": {
+    seasons: "16 Seasons + TYBW",
+    episodes: "408 Episode"
+},
+
+"My Hero Academia": {
+    seasons: "8 Season",
+    episodes: "170 Episode"
+},
+
+"Black Clover": {
+    seasons: "1 Series",
+    episodes: "170 Episode"
+},
+
+"Tokyo Ghoul": {
+    seasons: "4 Season",
+    episodes: "48 Episode"
+},
+
+"Tokyo Revengers": {
+    seasons: "3 Season",
+    episodes: "50 Episode"
+},
+
+"Mob Psycho 100": {
+    seasons: "3 Season",
+    episodes: "37 Episode"
+},
+
+"Fire Force": {
+    seasons: "3 Season",
+    episodes: "72 Episode"
+},
+
+"Dr. Stone": {
+    seasons: "4 Season",
+    episodes: "84 Episode"
+},
+
+"Vinland Saga": {
+    seasons: "2 Season",
+    episodes: "48 Episode"
+},
+
+"Kaiju No. 8": {
+    seasons: "2 Season",
+    episodes: "23 Episode"
+},
+
+"Fate/Zero": {
+    seasons: "2 Season",
+    episodes: "25 Episode"
+},
+
+"Dororo": {
+    seasons: "1 Season",
+    episodes: "24 Episode"
+},
+
+"Bungou Stray Dogs": {
+    seasons: "5 Season",
+    episodes: "61 Episode"
+},
+
+"The God of High School": {
+    seasons: "1 Season",
+    episodes: "13 Episode"
+},
+
+"The Rising of the Shield Hero": {
+    seasons: "3 Season",
+    episodes: "50 Episode"
+},
+
+"Tower of God": {
+    seasons: "2 Season",
+    episodes: "39 Episode"
+}
+
+
+};
+
+
+/* MENAMPILKAN ANIME */
+
+function renderAnime() {
+
+    const keyword =
+        document.getElementById("search").value.toLowerCase();
+
+    const selectedGenre =
+        document.getElementById("filter").value;
+
+    const filtered = animeData.filter(anime => {
+
+        return anime.title.toLowerCase().includes(keyword) &&
+        (selectedGenre === "All" ||
+        anime.genre === selectedGenre);
+
+    });
+
+    const container =
+        document.getElementById("animeList");
+
+    container.innerHTML = "";
+
+    if (filtered.length === 0) {
+
+        container.innerHTML =
+        "<p>Anime tidak ditemukan.</p>";
+
+        return;
+    }
+
+    filtered.forEach(anime => {
+
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const img = document.createElement("img");
+        img.src = anime.image;
+        img.alt = anime.title + " poster";
+
+        img.onerror = function() {
+            this.src =
+            "https://placehold.co/300x400/171725/white?text=Anime";
+        };
+
+        const content = document.createElement("div");
+        content.className = "card-content";
+
+        const title = document.createElement("h3");
+        title.textContent = anime.title;
+
+        const genre = document.createElement("div");
+        genre.className = "genre";
+        genre.textContent = anime.genre + " • " + anime.year;
+
+        const stats = document.createElement("div");
+        stats.className = "stats";
+        stats.textContent = animeStats[anime.title].seasons + " • " + animeStats[anime.title].episodes;
+
+        const rating = document.createElement("div");
+        rating.className = "rating";
+        rating.textContent = "★" + anime.rating;
+
+        const description = document.createElement("p");
+        description.textContent = anime.description;
+
+        const button = document.createElement("button");
+        button.textContent = "Lihat Detail";
+        button.onclick = function() {
+            showDetail(anime.title);
+        };
+
+        content.append(
+            title,
+            genre,
+            stats,
+            rating,
+            description,
+            button
+        );
+
+        card.append(img, content);
+        container.appendChild(card);
+
+    });
+
+}
+
+
+/* DETAIL ANIME */
+
+function showDetail(title) {
+
+    const anime = animeData.find(
+        item => item.title === title
+    );
+
+    const stats = animeStats[anime.title];
+
+    document.getElementById("modalTitle").innerText =
+        anime.title;
+
+    document.getElementById("modalDescription").innerText =
+        anime.description +
+        "\n\nGenre: " + anime.genre +
+        "\nTahun rilis: " + anime.year +
+        "\nSeason: " + stats.seasons +
+        "\nJumlah Episode: " + stats.episodes +
+        "\nRating Referensi: " + anime.rating;
+
+    document.getElementById("modal").style.display = "flex";
+}
+
+
+/* MENUTUP MODAL */
+
+function closeModal() {
+
+    document.getElementById("modal").style.display = "none";
+
+}
+
+window.onclick = function(event) {
+
+    const modal = document.getElementById("modal");
+
+    if (event.target === modal) {
+        closeModal();
+    }
+
+};
+
+
+/* LOAD WEBSITE */
+
+renderAnime();
+
+</script>
+
+</body>
+  </html>
+  
