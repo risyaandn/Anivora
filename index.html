@@ -135,8 +135,21 @@ nav a:hover {
 /* ANIME CARDS */
 .anime-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 25px;
+}
+  @media (max-width: 768px) {
+    .anime-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .anime-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
 }
 
 .card {
@@ -154,10 +167,8 @@ nav a:hover {
 
 .card img {
     width: 100%;
-    height: 320px;
-    object-fit: contain;
-    background: #11111d;
-    display: block;
+    height: 290px;
+    object-fit: cover;
 }
 
 .card-content {
@@ -256,7 +267,7 @@ nav a:hover {
 .about-note {
     margin-top: 30px;
     color: #77778e;
-    font-size: 11px;
+    font-size: 12px;
     line-height: 1.6;
     letter-spacing: 0.3px;
     text-align: center;
@@ -347,7 +358,7 @@ footer {
 <section class="container" id="anime">
 
     <h2 class="section-title">
-        Recommended <span>Anime</span>
+        Rekomendasi <span>Anime</span>
     </h2>
 
     <div class="search-box">
@@ -404,10 +415,6 @@ footer {
 
         Jelajahi berbagai judul anime, temukan cerita
         menarik, dan nikmati petualangan favoritmu!
-
-        <br><br>
-
-        Discover Stories. Experience Adventures.
     </p>
   <p class="about-note">
     Website ini dibuat untuk memenuhi tugas Informatika
@@ -453,6 +460,14 @@ rating:"8.5/10",
 year:"2020",
 image:"https://cdn.myanimelist.net/images/anime/1171/109222.jpg",
 description:"Yuji Itadori memasuki dunia penyihir jujutsu dan kutukan berbahaya."
+},
+{
+    title: "Frieren: Beyond Journey's End",
+    genre: "Fantasy, Adventure",
+    year: "2023",
+    image: "https://cdn.myanimelist.net/images/anime/1015/138006.jpg",
+    rating: "9.3",
+    description: "Mengikuti perjalanan Frieren, seorang penyihir elf yang menjelajahi dunia setelah mengalahkan Raja Iblis. Dalam perjalanannya, ia mulai memahami arti waktu, persahabatan, dan kehidupan."
 },
 {
 title:"Solo Leveling",
@@ -700,6 +715,11 @@ const animeStats = {
     episodes: "59 Episode"
 },
 
+  "Frieren: Beyond Journey's End": {
+    season: "2 Season",
+    episode: "38 Episode"
+},
+
 "Solo Leveling": {
     seasons: "2 Season",
     episodes: "25 Episode"
@@ -904,7 +924,7 @@ function renderAnime() {
 
         const rating = document.createElement("div");
         rating.className = "rating";
-        rating.textContent = "★" + anime.rating;
+        rating.textContent = "★ " + anime.rating;
 
         const description = document.createElement("p");
         description.textContent = anime.description;
@@ -920,7 +940,6 @@ function renderAnime() {
             genre,
             stats,
             rating,
-            description,
             button
         );
 
