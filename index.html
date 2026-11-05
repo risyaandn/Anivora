@@ -222,6 +222,30 @@ nav a:hover {
     background: #7040d5;
 }
 
+  /* SHOW MORE BUTTON */
+.show-more-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 35px;
+}
+
+#showMoreBtn {
+    background: #8b5cf6;
+    color: white;
+    border: none;
+    padding: 13px 35px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .3s;
+}
+
+#showMoreBtn:hover {
+    background: #7040d5;
+    transform: translateY(-3px);
+}
+  
 /* MODAL */
 .modal {
     display: none;
@@ -367,10 +391,10 @@ footer {
             type="text"
             id="search"
             placeholder="Cari judul anime..."
-            oninput="renderAnime()"
+            oninput="renderAnime(true)"
         >
 
-        <select id="filter" onchange="renderAnime()">
+        <select id="filter" onchange="renderAnime(true)">
             <option value="All">Semua Genre</option>
             <option value="Action">Action</option>
             <option value="Fantasy">Fantasy</option>
@@ -380,7 +404,13 @@ footer {
 
     </div>
 
-    <div class="anime-grid" id="animeList"></div>
+<div class="anime-grid" id="animeList"></div>
+
+<div class="show-more-container">
+    <button id="showMoreBtn" onclick="showMoreAnime()">
+        Lihat Selengkapnya
+    </button>
+</div>
 
 </section>
 
@@ -692,6 +722,14 @@ description:"Bam memasuki menara misterius untuk mencari seseorang yang sangat b
     year:"2022",
     image:"https://cdn.myanimelist.net/images/anime/1818/126435.jpg",
     description:"David Martinez berusaha bertahan hidup dan membangun reputasi sebagai edgerunner di kota futuristik Night City."
+},
+{
+    title: "JoJo's Bizarre Adventure",
+    genre: "Action, Adventure, Supernatural",
+    year: 2012,
+    image: "https://cdn.myanimelist.net/images/anime/3/40409.jpg",
+    rating: "7.9",
+    description: "Keluarga Joestar menghadapi berbagai musuh dan ancaman supernatural dalam petualangan lintas generasi."
 }
   
 ];
@@ -716,8 +754,8 @@ const animeStats = {
 },
 
   "Frieren: Beyond Journey's End": {
-    season: "2 Season",
-    episode: "38 Episode"
+    seasons: "2 Season",
+    episodes: "38 Episode"
 },
 
 "Solo Leveling": {
@@ -857,6 +895,11 @@ const animeStats = {
 "Cyberpunk: Edgerunners": {
     seasons: "1 Season",
     episodes: "10 Episode"
+},
+  
+"JoJo's Bizarre Adventure": {
+    seasons: "5 Part",
+    episodes: "190 Episode"
 }
 
 
@@ -865,7 +908,14 @@ const animeStats = {
 
 /* MENAMPILKAN ANIME */
 
-function renderAnime() {
+let visibleAnimeCount = 6;
+const animePerLoad = 6;
+
+function renderAnime(reset = true) {
+
+    if (reset) {
+        visibleAnimeCount = 6;
+    }
 
     const keyword =
         document.getElementById("search").value.toLowerCase();
@@ -875,26 +925,41 @@ function renderAnime() {
 
     const filtered = animeData.filter(anime => {
 
-        return anime.title.toLowerCase().includes(keyword) &&
-        (selectedGenre === "All" ||
-        anime.genre === selectedGenre);
+        const matchTitle =
+            anime.title.toLowerCase().includes(keyword);
+
+        const matchGenre =
+            selectedGenre === "All" ||
+            anime.genre.toLowerCase().includes(
+                selectedGenre.toLowerCase()
+            );
+
+        return matchTitle && matchGenre;
 
     });
 
     const container =
         document.getElementById("animeList");
 
+    const showMoreBtn =
+        document.getElementById("showMoreBtn");
+
     container.innerHTML = "";
 
     if (filtered.length === 0) {
 
         container.innerHTML =
-        "<p>Anime tidak ditemukan.</p>";
+            "<p>Anime tidak ditemukan.</p>";
+
+        showMoreBtn.style.display = "none";
 
         return;
     }
 
-    filtered.forEach(anime => {
+    const displayedAnime =
+        filtered.slice(0, visibleAnimeCount);
+
+    displayedAnime.forEach(anime => {
 
         const card = document.createElement("div");
         card.className = "card";
@@ -902,8 +967,10 @@ function renderAnime() {
         const img = document.createElement("img");
         img.src = anime.image;
         img.alt = anime.title + " poster";
+        img.loading = "lazy";
 
         img.onerror = function() {
+            this.onerror = null;
             this.src =
             "https://placehold.co/300x400/171725/white?text=Anime";
         };
@@ -918,19 +985,23 @@ function renderAnime() {
         genre.className = "genre";
         genre.textContent = anime.genre + " • " + anime.year;
 
+        const statsData = animeStats[anime.title] || {};
+
         const stats = document.createElement("div");
         stats.className = "stats";
-        stats.textContent = animeStats[anime.title].seasons + " • " + animeStats[anime.title].episodes;
+
+        stats.textContent =
+            (statsData.seasons || "Belum tersedia") +
+            " • " +
+            (statsData.episodes || "Belum tersedia");
 
         const rating = document.createElement("div");
         rating.className = "rating";
         rating.textContent = "★ " + anime.rating;
 
-        const description = document.createElement("p");
-        description.textContent = anime.description;
-
         const button = document.createElement("button");
         button.textContent = "Lihat Detail";
+
         button.onclick = function() {
             showDetail(anime.title);
         };
@@ -947,6 +1018,20 @@ function renderAnime() {
         container.appendChild(card);
 
     });
+
+    showMoreBtn.style.display =
+        filtered.length > visibleAnimeCount ? "block" : "none";
+
+}
+
+
+/* LIHAT SELENGKAPNYA */
+
+function showMoreAnime() {
+
+    visibleAnimeCount += animePerLoad;
+
+    renderAnime(false);
 
 }
 
